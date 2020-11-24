@@ -8,7 +8,7 @@
 **cd..** ----> Goes one folder back. Example: *C:\Users\Anton>* cd..  ----> *C:\Users>* <br/>
 **dir** ----> Lists everything in the currect folder<br/>
 
-#### **NOTE: To use git commands you must be in the local repository (java-project)**<br/>
+#### **NOTE: To use git commands you must be in the local repository (ACS330-project)**<br/>
 To pull files from the github repository: <br/>
 *C:\\..\ACS330-project>* **git pull** ----> updates your local repository. **Pull only when you havent changed anything on your PC** <br/>
 To update the git online repository with the changes you made localy use: <br/>
