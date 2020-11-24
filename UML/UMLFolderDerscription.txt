@@ -1,1 +1,0 @@
-This flolder contains the UML diagrams for the behaviour of components in our system
