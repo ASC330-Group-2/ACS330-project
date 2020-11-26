@@ -1,3 +1,3 @@
 #Folder description
 
-This folder stores the UML diagrams for AMR
+This folder stores the code diagrams for AMR
