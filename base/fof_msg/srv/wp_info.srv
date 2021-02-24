@@ -1,0 +1,8 @@
+#Each time a machine or the NDT station needs information to process a workpiece it will request #it via this service.  To start with the information will be limited to the next NDT test required #and the 3D object shape.  The stepIndex and moreSteps fields allow looping to be implemented.
+
+string workpieceId
+int8 stepIndex
+---
+string testType
+string stlFileUri
+bool moreSteps

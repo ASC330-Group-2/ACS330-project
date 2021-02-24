@@ -1,0 +1,8 @@
+#The report which the NDT station will send to the CMS to enable it to isolate failed workpieces #and collect data for later analysis.
+
+string assetId
+string workpieceId
+bool result
+int8 failTestIndex
+---
+bool error

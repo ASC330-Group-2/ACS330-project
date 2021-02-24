@@ -1,0 +1,8 @@
+#Once an AMR determines it is ready to start the transfer of an object to or from a Machine or the #NDT station it will notify the asset in question and start the transfer when it receives a #confirmation (error = 0), and then once it determines that transfer is complete it will send #another notification so that the machine can stop its conveyor.
+
+string assetId
+string location
+bool toOrFromAmr
+bool startOrStop
+---
+bool error

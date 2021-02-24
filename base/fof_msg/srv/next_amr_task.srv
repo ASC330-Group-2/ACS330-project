@@ -1,0 +1,9 @@
+#AMR requests a task from the CMS, which will be returned in the form of coded location tags for #the pickup and drop off locations.
+
+string assetId
+---
+string fromLocation
+string toLocation
+string workpieceId
+
+

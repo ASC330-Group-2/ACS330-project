@@ -1,0 +1,8 @@
+#Each time an asset receives or offloads a workpiece it will inform the CMS of the location #change.  If an AMR offloads a workpiece into a storage or holding location it will identify this #location in the request.
+
+string assetId
+string workpieceID
+int8 moveType
+string location
+---
+bool error
