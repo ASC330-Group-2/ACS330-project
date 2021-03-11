@@ -1,0 +1,8 @@
+prefix=/home/ron/simulation_ws/devel
+
+Name: fof_central
+Description: Description of fof_central
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

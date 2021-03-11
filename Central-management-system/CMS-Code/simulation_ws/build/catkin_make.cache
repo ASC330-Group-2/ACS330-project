@@ -1,0 +1,2 @@
+fof_central:fof_msgs:my_simulation:two-wheeled-robot-simulation/m2wr_description:two-wheeled-robot-simulation/my_worlds
+-DCATKIN_DEVEL_PREFIX=/home/ron/simulation_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ron/simulation_ws/install -G Unix Makefiles
