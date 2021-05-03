@@ -1,9 +1,15 @@
-()""
+#VSCode plugin for highlighting TODOs and FIXMEs within code
+#
+#TODO:
+# - change next_amr_task to hadle instance of multiple workpieces with the status available
+# - complete the exception clause
 
 from datetime import datetime
 
 def next_amr_task(assetId):
     nextAMRTaskFound = 0
+    TasksWithTheStatusAvailable = 0 
+
     while (nextAMRTaskFound == 0) ^ (TasksWithTheStatusAvailable =! NULL)
         minDate = "00/00/0000" #Min date acts as lower range of date that can be selected. 
         #When AMR task cannot be served as the 'tolocation' is not avaliable then this variable
@@ -29,7 +35,10 @@ def next_amr_task(assetId):
         #No outstanding AMR tasks are avaliable. Notify AMR or give AMR specfic task
 
     
-
+    #Search for task with lowest date, status==valiable and tolocation Status_ConveyorOOUT = avaliable DOESN'T WORK
+    queryStatement = ("SELECT AMRTask.AMRTaskId, MIN(status.Status_ConveyorOUT)FROM AMRTask INNER JOIN status ON AMRTask.toLocation = status.assetId WHERE AMRTask.status = 'avaliable'")
+    queryStatement = ("db.AMRTaskINNER JOIN status ON AMRTask.toLocation = status.assetId .find({ "AMRTask.status " :  'avaliable'},{"AMRTask.AMRTaskId": 1,"MIN(status.Status_ConveyorOUT)": 1});")
+    
     # earliestAMRTaskdate = min(AMRTasksWithTheStatusAvailable.priority)
     # #*note to self* in the case you cant use min on an attribute of a class uncomment the following code
     # #------------------
@@ -69,3 +78,27 @@ def asset_status(assetId, status_main, status_conveyorIN, status_conveyorOUT)
 #   query("assets","updation",querystatement,newValuesStatement)
 
 #   Act on status chnages if they need action i.e. error...
+
+
+def next_amr_task(assetId):
+    try:
+        AMRTasksWithTheStatusAvailable = Query("selection", "AMRTasks", "{"satus":"available"}")    # Looking for AMRTasks with the status available
+        dateTimeArray = storeAttributeAsArray(AMRTasksWithTheStatusAvailable, dateTime)             # Stores attribute into array allowin us to use min
+        resultingAMRTask = AMRTasksWithTheStatusAvailable[][dateTime] == min(dateTimeArray)         # FIXME: this will most likely need a for loop to work
+        if checkIfTargetAssetIsAvailable(resultingAMRTask['toLocation']) == False:
+            dateTimeArray.remove(min(dateTimeArray))
+        else:
+            Query("updation", "AMRTask", "status", "inProcess")    
+            return resultingAMRTask['fromLocation'], resultingAMRTask['toLocation'], resultingAMRTask['workpieceId']
+    except:
+        print("There are no AMRTasks that are available at the moment")
+        # send ARMTask commanding the AMR to wait
+
+# Checks the status of the converyorIN for a given statusLocation
+def checkIfTargetAssetIsAvailable(assetLocation):
+    targetAsset = Query("selection", "Asset", "location", assetLocation)
+    if targetAsset['status_conveyorIN'] == "Available"
+        return True
+    else:
+        return False
+        

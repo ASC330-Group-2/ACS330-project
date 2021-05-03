@@ -1,8 +1,13 @@
-
+#VSCode plugin for highlighting TODOs and FIXMEs within code
+#
+#TODO:
+# find out what the data type is returned when making selection queries 
+#
 
 class Query:
     import pymongo
     import datetime 
+    import json
     #setting up the database to connect to our MongoDB server
     database = "CMS_Database"
     myclient - pymongo.MongoClient("mongodb+srv://Password:Password@cluster0.56sgz.mongodb.net/?retryWrites=true&w=majority")
@@ -18,14 +23,14 @@ class Query:
         self.collectionName = collectionName
         self.queryType = queryType
         
-        if querytype == "updation"
+        if querytype == "updation":
             queryType(queryStatement, secondQueryStatement)
-        else
+        else:
             queryType(queryStatement) #QueryTypes : selection, updation, insertion, deletion
 
 
 # Selection returns the JSON entry in mongoDb
-# Example of selection: query = Query("Assest", "selection", {"satus":"available"})
+# Example of selection: query = Query("Assest", "selection", "{"satus":"available"}")
    
     def selection(queryStatement):
         collection.find({}, queryStatement) # datafield:dataValue needs to be replaced with queryStatement
@@ -53,40 +58,22 @@ class Query:
     def deletion(queryStatement):
         collection.delete_one(queryStatement)
 
-# Example of deletion queryStatement
-# Query("Assest", "deletion", {"satus":"notAvailable"})
 
+# The following method returns the highest in suffix
+# This can be simplified if the suffix is stored as an integer as opposed to a string
+    def searchForHighestIdSuffix(idPrefix, collectionName):
+        data = Query("selection", collectionName, "idPrefix", idPrefix)
+        stringList = storeAttributeAsArray(data, idSuffix)                              # Storing the the values as a list of stings
+        intList = list(map(int, stringList))                                            # Converting the strings into integers
+        return max(intList)
     
-#   #bear in mind you can have nested dictionaries in python  
-#     def searchForHighestIdSuffix(idPrefix):
-#         if idPrefix == "AMR" or "NDT" or "EM":
-#             DataWithGighestIdSuffix = Query("selection", "asset", "Id", )
-
-#             return highestIdSuffix
-#         if idPrefix == "WP"
-
-#         if idPrefix == "OR"
-
-#         if idPrefix == "AMT"
+    def storeAttributeAsArray(data,attribute):
+        array = []
+        for entry in data:
+            array.append(result.attribute)
+        return array 
+        
     
-    
-# # the following method is used to create the unique ids that stick to our nameing style
 
-#     def createUniqueId(idPrefix): # idPrefix is the first half of the naming style i.e. AMR
-#         if idPrefix = "AMR": 
-#             queryStatement = "SELECT from assets "
-#             newestAMR = Query("selection", "asset", queryStatement )
-#             sting id = idPrefix + strnumber+1
-#         if idPrefix = "NDT": 
-
-#         if idPrefix = "WP": 
-
-#         if idPrefix = "OR": 
-            
-#         if idPrefix = "EM": 
-#         if idPrefix = "AMR": 
-            
-
-
-   
+       
    

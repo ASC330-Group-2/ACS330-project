@@ -43,17 +43,5 @@ class Order:
             #NewWorkpieceID = "WP" & NewNum #New ID is created
             #workpiece(workpieceId, workpiecePreset)
 
-    def createUniqueId(idPrefix): 
-        if idPrefix = "AMR": 
-            queryStatement = "SELECT from assets "
-            newestAMR = Query("selection", "asset", queryStatement )
-            sting id = idPrefix + strnumber+1
-        if idPrefix = "NDT": 
 
-        if idPrefix = "WP": 
-        if idPrefix = "OR": 
-        if idPrefix = "EM": 
-        if idPrefix = "AMR": 
-        
-
-        
+    
