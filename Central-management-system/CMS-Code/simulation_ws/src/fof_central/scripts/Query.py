@@ -2,70 +2,78 @@
 #
 #TODO:
 # find out what the data type is returned when making selection queries 
-#
+# playing around with sending functions as parameters. still not completed
+
+
 
 class Query:
     import pymongo
-    import datetime 
-    import json
+    from pymongo import MongoClient
+    from datetime import datetime
     #setting up the database to connect to our MongoDB server
-    database = "CMS_Database"
-    myclient - pymongo.MongoClient("mongodb+srv://Password:Password@cluster0.56sgz.mongodb.net/?retryWrites=true&w=majority")
+    cluster = pymongo.MongoClient("mongodb+srv://Password:Password@cluster0.56sgz.mongodb.net/CMS_Database?retryWrites=true&w=majority")
     #mydb = myclient[database] maybe look into what this does
-    db = cluster["cluster0"]
-    collectionName = ""
+    db = cluster["CMS_Database"]
+    collectionName = "AMRTask"
     collection = db[collectionName]
-    queryType = NULL  # selection, updation, insertion, deletion } these are the four types of queries
-    queryStatement = ""
 
-    def __init__(collectionName, queryType, queryStatement, secondQueryStatement):
-        
-        self.collectionName = collectionName
+    #queryType is not a string so make sure parameter is not a string
+
+    def __init__(self, queryType, collectionName, queryStatement, secondQueryStatement):
+        Query.collectionName = collectionName
         self.queryType = queryType
+        self.queryStatement = queryStatement
+        self.secondQueryStatement = secondQueryStatement
+        self.queryType(self)
         
-        if querytype == "updation":
-            queryType(queryStatement, secondQueryStatement)
-        else:
-            queryType(queryStatement) #QueryTypes : selection, updation, insertion, deletion
+
+    def __init__(self, queryType, collectionName, queryStatement):
+         Query.collectionName = collectionName
+         self.queryType = queryType
+         self.queryStatement = queryStatement
+         self.queryType(self)
 
 
-# Selection returns the JSON entry in mongoDb
-# Example of selection: query = Query("Assest", "selection", "{"satus":"available"}")
+    # Selection returns the JSON entry in mongoDb
+    # Example of selection: query = Query("Assest", "selection", "{"satus":"available"}")
    
-    def selection(queryStatement):
-        collection.find({}, queryStatement) # datafield:dataValue needs to be replaced with queryStatement
+    def selection(self):
+        Query.collection.find({}, passedQuery.queryStatement) # datafield:dataValue needs to be replaced with queryStatement
         for result in results:
             print(result)
         return results
 
 
-# Example of updation queryStatement    
-# Query("Asset", "updation", "{"satus":"available"}", "{"$set":{satus":"completed"}"})
+    # Example of updation queryStatement    
+    # Query("Asset", "updation", "{"satus":"available"}", "{"$set":{satus":"completed"}"})
 
-    def updation(queryStatement, secondQueryStatement):
-        collection.update(queryStatement, secondQueryStatement)
+    def updation(self):
+        Query.collection.update(passedQuery.queryStatement, passedQuery.secondQueryStatement)
 
-# Example of insertion queryStatement
-# Query("Order", "insertion", "{"orderId":"OR1001","orderPreset":"chair", "dateTime":"2017-11-23 23:55:59", "status":"complete"}")
-# Be sure to fill out all values
+    # Example of insertion queryStatement
+    # Query("Order", "insertion", "{"orderId":"OR1001","orderPreset":"chair", "dateTime":"2017-11-23 23:55:59", "status":"complete"}")
+    # Be sure to fill out all values
 
-    def insertion(queryStatement):
-        collection.insert_one(queryStatement)
-
-# Example of deletion queryStatement
-# Query("Assest", "deletion", {"satus":"notAvailable"})
-
-    def deletion(queryStatement):
-        collection.delete_one(queryStatement)
+    def insertion(self):
+        Query.collection.insert_one(self.queryStatement)
 
 
-# The following method returns the highest in suffix
-# This can be simplified if the suffix is stored as an integer as opposed to a string
-    def searchForHighestIdSuffix(idPrefix, collectionName):
-        data = Query("selection", collectionName, "idPrefix", idPrefix)
+    # Example of deletion queryStatement
+    # Query("Assest", "deletion", {"satus":"notAvailable"})
+
+    def deletion(self):
+        Query.collection.delete_one(self.queryStatement)
+
+
+    # The following method returns the highest in suffix
+    # This can be simplified if the suffix is stored as an integer as opposed to a string
+    def generateNewID(idPrefix, collectionName):
+        queryStatement = {}
+        data = Query("selection", collectionName, queryStatement)
         stringList = storeAttributeAsArray(data, idSuffix)                              # Storing the the values as a list of stings
         intList = list(map(int, stringList))                                            # Converting the strings into integers
-        return max(intList)
+        newID = "idPrefix" + (max(intList) +1)
+    
     
     def storeAttributeAsArray(data,attribute):
         array = []
@@ -75,5 +83,27 @@ class Query:
         
     
 
-       
-   
+def main():
+    import pymongo
+    from pymongo import MongoClient
+    from datetime import datetime
+    #setting up the database to connect to our MongoDB server
+    cluster = pymongo.MongoClient("mongodb+srv://Password:Password@cluster0.56sgz.mongodb.net/CMS_Database?retryWrites=true&w=majority")
+    #mydb = myclient[database] maybe look into what this does
+    db = cluster["CMS_Database"]
+    collectionName = "AMRTask"
+    collection = db[collectionName]
+    
+    #testing the query class
+    
+    #AMRTaskId = {'1'{'IdPrefix':'AMT'}, {'IdSuffix':1001}} # Removed quotations as it is dictonary not string.
+    tolocation = "NDT1001"
+    fromLocation = "EM1002"
+    status = "available"
+    workpieceId = "1001"
+    queryStatement = {"tolocation":tolocation,"fromLocation":fromLocation,"status":status,"DateTime":datetime.now(),"workpieceId":workpieceId}
+    first = Query(Query.insertion,"AMRTask", queryStatement)
+
+
+if __name__ == "__main__":
+    main()

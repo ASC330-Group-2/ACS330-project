@@ -3,5 +3,5 @@
     "python.autoComplete.extraPaths": [
         "/opt/ros/melodic/lib/python2.7/dist-packages"
     ],
-    "python.pythonPath": "/home/ron/anaconda3/envs/fof/bin/python"
+    "python.pythonPath": "/usr/bin/python3"
 }

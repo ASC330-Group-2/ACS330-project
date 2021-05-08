@@ -3,7 +3,7 @@
 # table contains 4 legs, 1 rectangle
 # stand contains 1 leg, 1 square, 1 rectangle
 
-
+import datetime from datetime
 class Order:
 
     orderId = ""
@@ -15,33 +15,27 @@ class Order:
 
 
 
-    def __init__(self, orderId, workpieces):
-        self.orderId = orderId
+    def __init__(self,orderPreset workpieces):
         self.workpieces = workpieces
+        self.orderPreset = orderPreset
+        self.orderId = generateNewID("OR", "Order")
 
         #function to automatically insert order into the database
-        queryStatement = "INSERT into Orders, OrderId = {}, orderPreset = {}".format(orderId, orderPreset)
+        queryStatement = {"orderId":orderId,"orderPreset":orderPreset,"dateTimeInitialised":datetime.now(),"status":status}
         Query("Insertion", "Assets", queryStatement)
 
     def createWorkpieces(orderPreset)
-        #Query collection for the last ID to increment the new Workpiece ID
-        #LatestID = QueryResult
-
-        #Return Order preset
-        #Query orderPreset collection for id = orderPreset. This returns an array of workpiece presets.
         
+        #Query Orderpresets for workpeices:
+        queryStatement = {"orderPreset":orderPreset}
+        listOfPresets = Query("Selection","OrderPreset",queryStatement)
 
-
-       
-        #queryStatement = "SELECT Presets"
-
-        
-
-
-        #for i = 0 to :
-            #NewNum = LatestID[2:5] + (i + 1)
-            #NewWorkpieceID = "WP" & NewNum #New ID is created
-            #workpiece(workpieceId, workpiecePreset)
+        for i =0 : length(listOfPresets):
+            #Query collection for the last ID to increment the new Workpiece ID
+    
+            
+            #Create workpiece object which automatically adds it to the database.format
+            Workpiece(listOfPresets(i),orderId)
 
 
     

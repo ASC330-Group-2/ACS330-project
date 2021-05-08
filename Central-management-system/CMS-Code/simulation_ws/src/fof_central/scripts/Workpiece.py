@@ -3,7 +3,6 @@ class Workpiece:
     workpieceId = ""
     workpiecePreset = ""
     stepIndex = 0
-    actionList = [] = presetmongodb
     AMRTaskList = []
     moreSteps = True
     error = 0
@@ -11,20 +10,18 @@ class Workpiece:
     # in the following example of a action list the files have been replace with single variables for the purpose of the demonstrator
     chairlegInstruction = [["EM1001", "FILE1"], ["EM1002", "FILE2"], ["EM1001", "FILE3"]]
     
-    def __init__(self, workpieceId, workpiecePreset): 
-        self.workpieceId = workpieceId
+    def __init__(self, workpiecePreset, orderId): 
         self.stepIndex = 0
         self.moreSteps = True
         self.error = 0  
+        self.workpiecePreset = workpiecePreset
+        self.orderId = orderId
+        self.workpieceId = generateNewID("WP", "Workpiece")
 
         workpiece.getpreset(workpiecePreset)
-        workpiece.createActionList(actionList)
-        uploadNewWorkpieceToDatabase(workpieceId, workpiecePreset)
-
-
-
-
-        
+        self.actionList = workpiece.getActionList(workpiecePreset)
+        workpiece.createAMRTasks(actionList)
+        uploadNewWorkpieceToDatabase(workpieceId, workpiecePreset, orderId)
 
     #def definePreset(CheckNewPreset, presetID, file) 
     #CheckNewPreset ==1 If new workpiece defined. ==0 if not.
@@ -47,19 +44,23 @@ class Workpiece:
     #     query = queryQuery(“selection”, workpiecePreset)
     #-----------------------------------------------------------------------------------------------------
     
+    def getActionList(workpiecePreset)
+        querystatement = {"workpiecePreset":workpiecePreset}
+        actionList = Query("selection","WorkpiecePreset",querystatement)
+        return actionList
+
     def createAMRTaskList(actionList): #To create an AMR task list we need to know the action list
         AMRTaskIdList = []
         for i in length(actionList) -1
-	        startingAsset = Query(“selection”,”assets”, “location”, assetList[i+1][1])
-	        endingAsset = Query(“selection”,”assets”, “location”, assetList[i+1][1])
-	        newAMRTask = AMRTask()
-            
+	        startingAsset = Query(“selection”,”assets”, {“location”: actionList[i][1]})
+	        endingAsset = Query(“selection”,”assets”, “location”, actionList[i+1][1])
+	        newAMRTask = AMRTask(workpiece.generateNewID(), startingAsset.location, endingAsset.location, workpieceId)# TODO: make sure the id creation is fixed
             AMRTaskList.append(AMRTask(endingAsset.location, startingAsset.location, workpieceId, notAvailable, ))
 
 
-    def uploadNewWorkpieceToDatabase(workpieceId, workpiecePreset):
-        queryStatement = "INSERT into Workpieces, workpieceId = {}, workpiecePreset = {}, stepIndex = 0, moreSteps = True, error = 0".format(workpieceId, workpiecePreset)
-        Query("Insertion", "Assets", queryStatement)      
+    def uploadNewWorkpieceToDatabase(workpieceId, workpiecePreset,orderId:
+        queryStatement = {"workpieceId":workpieceId,"workpiecePreset":workpiecePreset,"stepIndex":0,"moreSteps":False,"error":0,"AMRTaskList":{},"orderId":orderId}
+        Query("insertion", "Workpiece", queryStatement)      
 
 
     
